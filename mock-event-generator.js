@@ -8,7 +8,7 @@ var studentIds = new Set()
 var events = []
 var uuidG = 0
 
-for (z in data_worksheet) {
+for (let z in data_worksheet) {
   if (z[0] === '!') continue
 
   // parse out the column, row, and value
@@ -20,7 +20,7 @@ for (z in data_worksheet) {
   data[row][headers[col]] = value
 
   // store header names
-  if (row == 1) {
+  if (row === 1) {
     headers[col] = value
     continue
   }
@@ -28,13 +28,13 @@ for (z in data_worksheet) {
 
 // console.log(data)
 
-for (d in data) {
+for (let d in data) {
   var student_id = data[d].syStudentID
   studentIds.add(student_id)
 }
 
 studentIds.forEach(function (value) {
-  event = {
+  let event = {
     uuid: uuidG,
     time: '',
     type: 'system.create.user',
