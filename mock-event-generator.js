@@ -1,3 +1,4 @@
+'use strict'
 var XLSX = require('xlsx')
 var workbook = XLSX.readFile('test.xlsx')
 var first_worksheet = workbook.SheetNames[0]
