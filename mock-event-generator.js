@@ -1,15 +1,15 @@
 'use strict'
-var XLSX = require('xlsx')
-var workbook = XLSX.readFile('test.xlsx')
-var first_worksheet = workbook.SheetNames[0]
-var data_worksheet = workbook.Sheets[first_worksheet]
-var headers = {}
-var data = []
-var studentIds = new Set()
-var events = []
-var uuidG = 0
+const XLSX = require('xlsx')
 
 function generateSystemCreateUser () {
+  var workbook = XLSX.readFile('test.xlsx')
+  var first_worksheet = workbook.SheetNames[0]
+  var data_worksheet = workbook.Sheets[first_worksheet]
+  var headers = {}
+  var data = []
+  var studentIds = new Set()
+  var events = []
+  var uuidG = 0
   for (let z in data_worksheet) {
     if (z[0] === '!') continue
 
