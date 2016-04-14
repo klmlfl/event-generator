@@ -2,7 +2,7 @@
   "name": "mock-event-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "XLS.js",
+  "main": "mock-event-generator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "faker": "^3.1.0",
     "xlsx": "^0.8.0"
   },
   "devDependencies": {
