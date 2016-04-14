@@ -1,0 +1,24 @@
+{
+  "name": "mock-event-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "XLS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@sshtash.difference-engine.com:7999/dean/mock-event-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xlsx": "^0.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-standard": "^5.1.0",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-standard": "^1.3.2"
+  }
+}
