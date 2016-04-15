@@ -85,7 +85,7 @@ function generateSystemCreateUser () {
     if(err) {
       return console.log(err);
     }
-    console.log("Events saved!");
+    console.log("Events file saved!");
   })
 }
 
