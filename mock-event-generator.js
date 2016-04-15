@@ -1,29 +1,8 @@
 'use strict'
-<<<<<<< HEAD
-<<<<<<< HEAD
-var XLSX = require('xlsx')
+const XLSX = require('xlsx')
 var fs = require('fs')
 var Chance = require ('chance')
 var chance = new Chance();
-
-//var Faker = require ('faker')
-
-
-
-var Workbook = XLSX.readFile('test.xlsx')
-var first_worksheet = Workbook.SheetNames[0]
-var data_worksheet = Workbook.Sheets[first_worksheet]
-var headers = {}
-var data = []
-var studentIds = new Set()
-var events = []
-var uuidG = 0
-=======
-const XLSX = require('xlsx')
->>>>>>> 5b388b41c79deac49a89ba031495e1738ee72347
-=======
-const XLSX = require('xlsx')
->>>>>>> 5b388b41c79deac49a89ba031495e1738ee72347
 
 function generateSystemCreateUser () {
   var workbook = XLSX.readFile('test.xlsx')
@@ -33,7 +12,6 @@ function generateSystemCreateUser () {
   var data = []
   var studentIds = new Set()
   var events = []
-  var uuidG = 0
   for (let z in data_worksheet) {
     if (z[0] === '!') continue
 
@@ -61,7 +39,7 @@ function generateSystemCreateUser () {
 
   studentIds.forEach(function (value) {
     let event = {
-      uuid: uuidG,
+      uuid: chance.guid(),
       time: '',
       type: 'system.create.user',
       source: 'lou',
