@@ -40,7 +40,7 @@ function generateSystemCreateUser () {
   studentIds.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
-      time: '',
+      time: chance.date({year: 2012}),
       type: 'system.create.user',
       source: 'lou',
       objVal: {
@@ -55,7 +55,6 @@ function generateSystemCreateUser () {
 
     }
     events.push(event)
-    uuidG++
   })
 
   //console.log(events)
