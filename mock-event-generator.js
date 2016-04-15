@@ -1,5 +1,6 @@
 'use strict'
 <<<<<<< HEAD
+<<<<<<< HEAD
 var XLSX = require('xlsx')
 var fs = require('fs')
 var Chance = require ('chance')
@@ -17,6 +18,9 @@ var data = []
 var studentIds = new Set()
 var events = []
 var uuidG = 0
+=======
+const XLSX = require('xlsx')
+>>>>>>> 5b388b41c79deac49a89ba031495e1738ee72347
 =======
 const XLSX = require('xlsx')
 >>>>>>> 5b388b41c79deac49a89ba031495e1738ee72347
