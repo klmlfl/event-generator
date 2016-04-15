@@ -58,7 +58,7 @@ function generateSystemCreateUser () {
   })
 
   //console.log(events)
-  fs.writeFile("temp/events.json", JSON.stringify(events), function(err) {
+  fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) {
     if(err) {
       return console.log(err);
     }

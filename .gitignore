@@ -1,5 +1,6 @@
 node_modules/
+mock_files/
 .vscode/
 .idea/
 .DS_Store
-mock_files/
+
