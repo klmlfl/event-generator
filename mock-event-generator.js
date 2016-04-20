@@ -52,16 +52,18 @@ function generateSystemCreateUser () {
         family_name: chance.last()
       },
       objValOld: {}
-
+    }
+    if (event.objVal.person_id % 2 == 0) {
+      event.objVal.middle_name = chance.name()
     }
     events.push(event)
   })
 
   
-  /*Pretty JSON format
+  //Pretty JSON format
   fs.writeFile("mock_files/events.json", JSON.stringify(events, null, 4), function(err) {
-  */
-  fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
+
+  //fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
     if(err) {
       return console.log(err);
     }
