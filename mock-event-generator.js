@@ -1,5 +1,8 @@
 'use strict'
 const XLSX = require('xlsx')
+var fs = require('fs')
+var Chance = require ('chance')
+var chance = new Chance();
 
 function generateSystemCreateUser () {
   var workbook = XLSX.readFile('test.xlsx')
@@ -9,7 +12,6 @@ function generateSystemCreateUser () {
   var data = []
   var studentIds = new Set()
   var events = []
-  var uuidG = 0
   for (let z in data_worksheet) {
     if (z[0] === '!') continue
 
@@ -37,26 +39,36 @@ function generateSystemCreateUser () {
 
   studentIds.forEach(function (value) {
     let event = {
-      uuid: uuidG,
-      time: '',
+      uuid: chance.guid(),
+      time: chance.date({year: 2012}),
       type: 'system.create.user',
       source: 'lou',
       objVal: {
         person_id: value,
-        username: 'UN' + value,
-        email: 'srahman+' + value + '@learningobjects.com',
-        given_name: 'FN' + value,
+        username: chance.word() + chance.natural({min:0, max:999999}),
+        email: chance.email(),
+        given_name: chance.first(),
         middle_name: null,
-        family_name: 'LN' + value
+        family_name: chance.last()
       },
       objValOld: {}
-
+    }
+    if (event.objVal.person_id % 2 == 0) {
+      event.objVal.middle_name = chance.name()
     }
     events.push(event)
-    uuidG++
   })
 
-  console.log(events)
+  
+  //Pretty JSON format
+  fs.writeFile("mock_files/events.json", JSON.stringify(events, null, 4), function(err) {
+
+  //fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
+    if(err) {
+      return console.log(err);
+    }
+    console.log("Events file saved!");
+  })
 }
 
 generateSystemCreateUser()
