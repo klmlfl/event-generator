@@ -4,7 +4,7 @@ var fs = require('fs')
 var Chance = require('chance')
 var chance = new Chance()
 
-function generateSystemCreateUser () {
+function generateSystemCreateUser() {
   var workbook = XLSX.readFile('test.xlsx')
   var first_worksheet = workbook.SheetNames[0]
   var data_worksheet = workbook.Sheets[first_worksheet]
@@ -42,21 +42,35 @@ function generateSystemCreateUser () {
   studentIds.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
-      time: chance.date({year: 2012}),
+      time: chance.date({ year: 2012 }),
       type: 'system.create.user',
       source: 'lou',
-      objVal: {
-        person_id: value,
-        username: chance.word() + chance.natural({min: 0, max: 999999}),
-        email: chance.email(),
-        given_name: chance.first(),
-        middle_name: null,
-        family_name: chance.last()
+      subj: {
+        type: 'system',
+        key: {
+          system_id: 'lou'
+        }
       },
-      objValOld: {}
+      action: {
+        type: 'create',
+        time: chance.date({ year: 2012 })
+      },
+      obj: {
+        type: 'student',
+        key: {
+          person_id: value
+        },
+        val: {
+          username: chance.word() + chance.natural({ min: 0, max: 999999 }),
+          email: chance.email(),
+          given_name: chance.first(),
+          middle_name: null,
+          family_name: chance.last()
+        }
+      }
     }
-    if (event.objVal.person_id % 2 === 0) {
-      event.objVal.middle_name = chance.name()
+    if (event.obj.key.person_id % 2 === 0) {
+      event.obj.val.middle_name = chance.name()
     }
     events.push(event)
   })
