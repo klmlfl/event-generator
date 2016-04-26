@@ -1,8 +1,8 @@
 'use strict'
 const XLSX = require('xlsx')
 var fs = require('fs')
-var Chance = require ('chance')
-var chance = new Chance();
+var Chance = require('chance')
+var chance = new Chance()
 
 function generateSystemCreateUser () {
   var workbook = XLSX.readFile('test.xlsx')
@@ -34,7 +34,9 @@ function generateSystemCreateUser () {
 
   for (let d in data) {
     var student_id = data[d].syStudentID
-    studentIds.add(student_id)
+    if (!studentIds.has(student_id)) {
+      studentIds.add(student_id)
+    }
   }
 
   studentIds.forEach(function (value) {
@@ -45,7 +47,7 @@ function generateSystemCreateUser () {
       source: 'lou',
       objVal: {
         person_id: value,
-        username: chance.word() + chance.natural({min:0, max:999999}),
+        username: chance.word() + chance.natural({min: 0, max: 999999}),
         email: chance.email(),
         given_name: chance.first(),
         middle_name: null,
@@ -53,21 +55,19 @@ function generateSystemCreateUser () {
       },
       objValOld: {}
     }
-    if (event.objVal.person_id % 2 == 0) {
+    if (event.objVal.person_id % 2 === 0) {
       event.objVal.middle_name = chance.name()
     }
     events.push(event)
   })
 
-  
-  //Pretty JSON format
-  fs.writeFile("mock_files/events.json", JSON.stringify(events, null, 4), function(err) {
-
-  //fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
-    if(err) {
-      return console.log(err);
+  // Pretty JSON format
+  fs.writeFile('mock_files/events.json', JSON.stringify(events, null, 4), function (err) {
+    // fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
+    if (err) {
+      return console.log(err)
     }
-    console.log("Events file saved!");
+    console.log('Events file saved!')
   })
 }
 
