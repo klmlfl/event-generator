@@ -43,7 +43,7 @@ function generateSystemCreateUser() {
     let event = {
       uuid: chance.guid(),
       time: chance.date({ year: 2012 }),
-      type: 'system.create.user',
+      type: 'system.create.person',
       source: 'lou',
       subj: {
         type: 'system',
