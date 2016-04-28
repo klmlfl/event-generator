@@ -70,7 +70,7 @@ function generateSystemCreateUser() {
       }
     }
     if (event.obj.key.person_id % 2 === 0) {
-      event.obj.val.middle_name = chance.name()
+      event.obj.val.middle_name = chance.first()
     }
     events.push(event)
   })
