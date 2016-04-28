@@ -5,7 +5,7 @@ var Chance = require('chance')
 var chance = new Chance()
 
 function generateSystemCreateUser() {
-  var workbook = XLSX.readFile('test.xlsx')
+  var workbook = XLSX.readFile('mock_files/test.xlsx')
   var first_worksheet = workbook.SheetNames[0]
   var data_worksheet = workbook.Sheets[first_worksheet]
   var headers = {}
@@ -76,7 +76,7 @@ function generateSystemCreateUser() {
   })
 
   // Pretty JSON format
-  fs.writeFile('mock_files/events.json', JSON.stringify(events, null, 4), function (err) {
+  fs.writeFile('mock_files/output/events.json', JSON.stringify(events, null, 4), function (err) {
     // fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) { 
     if (err) {
       return console.log(err)

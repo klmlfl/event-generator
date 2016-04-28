@@ -3,6 +3,5 @@ mock_files/
 .vscode/
 .idea/
 .DS_Store
-mock_files/
 ~$test.xlsx
 

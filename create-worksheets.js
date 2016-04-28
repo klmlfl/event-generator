@@ -18,7 +18,7 @@ wb.SheetNames.push("Person", "Course", "Course_Section", "Enrollment");
 wb.Sheets["Person"] = ws;
 
 //write file
-XLSX.writeFile(wb, 'test_output.xlsx');
+XLSX.writeFile(wb, 'mock_files/output/test_worksheets.xlsx');
 }
 
 createWorksheetsOutput()
