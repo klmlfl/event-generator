@@ -14,7 +14,7 @@ wb.SheetNames = [];
 var ws = {}
 
 // add worksheet to workbook
-wb.SheetNames.push("Person", "Course", "Course_Section", "Enrollment");
+wb.SheetNames.push("Person", "Course", "Course Section", "Enrollment");
 wb.Sheets["Person"] = ws;
 
 //write file

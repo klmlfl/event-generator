@@ -30,14 +30,18 @@ function generateSystemCreateUser() {
     }
   }
 
-  // console.log(data)
+  //console.log(data)
 
   for (let d in data) {
-    var student_id = data[d].syStudentID
-    if (!studentIds.has(student_id)) {
-      studentIds.add(student_id)
+    // Skip the first row; header row
+    if (d > 1) {
+      var student_id = data[d].syStudentID
+      if (!studentIds.has(student_id)) {
+        studentIds.add(student_id)
+      }
     }
   }
+
 
   studentIds.forEach(function (value) {
     let event = {
