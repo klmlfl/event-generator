@@ -4,21 +4,21 @@ var fs = require('fs')
 var Chance = require('chance')
 var chance = new Chance()
 
-function generateSystemCreateUser() {
+function generateSystemCreateUser () {
   var workbook = XLSX.readFile('mock_files/test.xlsx')
-  var first_worksheet = workbook.SheetNames[0]
-  var data_worksheet = workbook.Sheets[first_worksheet]
+  var firstWorksheet = workbook.SheetNames[0]
+  var dataWorksheet = workbook.Sheets[firstWorksheet]
   var headers = {}
   var data = []
   var studentIds = new Set()
   var events = []
-  for (let z in data_worksheet) {
+  for (let z in dataWorksheet) {
     if (z[0] === '!') continue
 
     // parse out the column, row, and value
     var col = z.substring(0, 1)
     var row = parseInt(z.substring(1))
-    var value = data_worksheet[z].v
+    var value = dataWorksheet[z].v
 
     if (!data[row]) data[row] = {}
     data[row][headers[col]] = value
@@ -30,18 +30,17 @@ function generateSystemCreateUser() {
     }
   }
 
-  //console.log(data)
+  // console.log(data)
 
   for (let d in data) {
     // Skip the first row; header row
     if (d > 1) {
-      var student_id = data[d].syStudentID
-      if (!studentIds.has(student_id)) {
-        studentIds.add(student_id)
+      var studentId = data[d].syStudentID
+      if (!studentIds.has(studentId)) {
+        studentIds.add(studentId)
       }
     }
   }
-
 
   studentIds.forEach(function (value) {
     let event = {
