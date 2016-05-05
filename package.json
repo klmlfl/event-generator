@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@sshtash.difference-engine.com:7999/dean/mock-event-generator.git"
+    "url": "ssh://git@sshtash.difference-engine.com:7999/dean/event-generator.git"
   },
   "author": "",
   "license": "ISC",
