@@ -4,4 +4,4 @@ mock_files/
 .idea/
 .DS_Store
 ~$test.xlsx
-
+.editorconfig
