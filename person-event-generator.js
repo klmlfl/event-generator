@@ -36,28 +36,29 @@ function generateSystemCreateUser () {
   for (let d in data) {
     // Skip the first row; header row
     if (d > 1) {
-          var studentId = data[d].syStudentID
+      var studentId = data[d].syStudentID
       if (!studentIds.has(studentId)) {
         studentIds.add(studentId)
-    
-    var person = {
-    "id": studentId,
-    "username": null,
-    "email": null,
-    "givenName": data[d].StudentName.split(',')[1].trim(),
-    "middleName": data[d].StudentName.split(',')[2] || '',
-    "familyName": data[d].StudentName.split(',')[0],
+
+        var person = {
+          'id': studentId,
+          'username': null,
+          'email': null,
+          'givenName': data[d].StudentName.split(',')[1].trim(),
+          'middleName': data[d].StudentName.split(',')[2] || '',
+          'familyName': data[d].StudentName.split(',')[0]
+        }
+
+        persons.push(person)
+      }
     }
-    
-    persons.push(person)
-    }
-  }
   }
 
   persons.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
-      time: new Date(Date.parse("1/1/2012")).toDateString(),
+      // time: moment().format('MM/DD/YYYY')
+      time: new Date().toJSON(),
       type: 'system.create.person',
       source: 'lou',
       subj: {
@@ -68,7 +69,7 @@ function generateSystemCreateUser () {
       },
       action: {
         type: 'create',
-        time: Date.now().toString()
+        time: new Date().toJSON()
       },
       obj: {
         type: 'student',
