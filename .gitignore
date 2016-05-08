@@ -5,3 +5,4 @@ mock_files/
 .DS_Store
 ~$test.xlsx
 .editorconfig
+.~*
