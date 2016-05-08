@@ -26,7 +26,7 @@ function generateCourse () {
     var value
 
     if (row > 1 && dateCols.indexOf(headers[col]) > -1) {
-      value = SSF.parse_date_code(dataWorksheet[z].v)
+      value = XLSX.SSF.parse_date_code(dataWorksheet[z].v)
     } else {
       value = dataWorksheet[z].v
     }
