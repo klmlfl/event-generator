@@ -1,6 +1,5 @@
 'use strict'
 const XLSX = require('xlsx')
-var moment = require('moment')
 var SSF = require ('ssf')
 var fs = require('fs')
 var Chance = require('chance')
@@ -63,11 +62,11 @@ function generateCourse () {
           'campus_name': data[d].campus_name || ''
         }
         
+        courseSections.push(courseSection)
+        
         var printStartDate = courseSection.start_date.m+'/'+courseSection.start_date.d+"/"+courseSection.start_date.y
         var printEndDate = courseSection.end_date.m+'/'+courseSection.end_date.d+"/"+courseSection.end_date.y
         var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
-
-        courseSections.push(courseSection)
       }
     }
   }

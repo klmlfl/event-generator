@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "chance": "^1.0.2",
-    "moment": "^2.13.0",
     "ssf": "^0.8.2",
     "xlsx": "^0.8.0"
   },
