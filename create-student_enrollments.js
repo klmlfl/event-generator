@@ -1,18 +1,18 @@
 'use strict'
 const XLSX = require('xlsx')
-var SSF = require ('ssf')
+var SSF = require('ssf')
 var fs = require('fs')
 var Chance = require('chance')
 var chance = new Chance()
 
-function generateCourse () {
+function generateEnrollment () {
   var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', {binary: true, cellDates: false, cellStyles: true})
-  var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]
+  var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Student_Enrollment')]
   var dataWorksheet = workbook.Sheets[firstWorksheet]
   var headers = {}
   var data = []
-  var courseIds = new Set()
-  var courseSections = []
+  var enrollmentIds = new Set()
+  var studentEnrollments = []
   var events = []
   // var timeFrom = "01-01-1900"
   for (let z in dataWorksheet) {
@@ -21,7 +21,7 @@ function generateCourse () {
     // parse out the column, row, and value
     var col = z.substring(0, 1)
     var row = parseInt(z.substring(1))
-    var dateCols = ['start_date', 'end_date', 'last_day_to_withdraw']
+    var dateCols = ['enrollment_date', 'enrollment_status_change_date']
     var value
 
     if (row > 1 && dateCols.indexOf(headers[col]) > -1) {
@@ -45,38 +45,47 @@ function generateCourse () {
   for (let d in data) {
     // Skip the header row
     if (d > 1) {
-      var courseSectionId = data[d].course_section_id
-      if (!courseIds.has(courseSectionId)) {
-        courseIds.add(courseSectionId)
+      var enrollmentId = data[d].enrollment_id
+      if (!enrollmentIds.has(enrollmentId)) {
+        enrollmentIds.add(enrollmentId)
 
-        var courseSection = {
-          'course_section_id': courseSectionId,
-          'course_section_code': data[d].course_section_code || '',
-          'course_id': data[d].course_id || '',
-          'delivery_method': data[d].delivery_method || '',
-          'term_code': data[d].term_code || '',
-          'start_date': data[d].start_date || '',
-          'end_date': data[d].end_date || '',
-          'last_day_to_withdraw': data[d].last_day_to_withdraw || '',
-          'instructor_id': data[d].instructor_id || '',
-          'campus_name': data[d].campus_name || ''
+        var studentEnrollment = {
+          'enrollment_id': enrollmentId,
+          'course_section_id': data[d].course_section_id || '',
+          'person_id': data[d].person_id || '',
+          'enrollment_date': data[d].enrollment_date || '',
+          'completion_flag': data[d].completion_flag || '',
+          'completion_success_flag': data[d].completion_success_flag || '',
+          'withdrawal_flag': data[d].withdrawal_flag || '',
+          'drop_flag': data[d].drop_flag || '',
+          'enrollment_status_change_date': data[d].enrollment_status_change_date || '',
+          'course_grade_number': data[d].course_grade_number || '',
+          'course_grade_letter': data[d].course_grade_letter || ''
         }
-        
-        courseSections.push(courseSection)
-        
-        var printStartDate = courseSection.start_date.m+'/'+courseSection.start_date.d+"/"+courseSection.start_date.y
-        var printEndDate = courseSection.end_date.m+'/'+courseSection.end_date.d+"/"+courseSection.end_date.y
-        var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
+
+        studentEnrollments.push(studentEnrollment)
+
+        if (studentEnrollment.enrollment_date != null) {
+          var printEnrollmentDate = studentEnrollment.enrollment_date.m + '/' + studentEnrollment.enrollment_date.d + '/' + studentEnrollment.enrollment_date.y
+        }
+        else
+          printEnrollmentDate = ''
+
+        if (studentEnrollment.enrollment_status_change_date.m != null) {
+          var printEnrollmentStatusChangeDate = studentEnrollment.enrollment_status_change_date.m + '/' + studentEnrollment.enrollment_status_change_date.d + '/' + studentEnrollment.enrollment_status_change_date.y
+        }
+        else
+          printEnrollmentStatusChangeDate = ''
       }
     }
   }
 
-  courseSections.forEach(function (value) {
+  studentEnrollments.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
       // time: moment().format('MM/DD/YYYY')
       time: new Date().toJSON(),
-      type: 'system.create.courseSection',
+      type: 'system.create.studentEnrollment',
       source: 'lou',
       subj: {
         type: 'system',
@@ -89,20 +98,21 @@ function generateCourse () {
         time: new Date().toJSON()
       },
       obj: {
-        type: 'course section',
+        type: 'student enrollment',
         key: {
-          course_section_id: value.course_section_id
+          enrollment_id: value.enrollment_id
         },
         val: {
-          course_section_code: value.course_section_code,
-          course_id: value.course_id,
-          delivery_method: value.delivery_method,
-          term_code: value.term_code,
-          start_date: printStartDate,
-          end_date: printEndDate,
-          last_day_to_withdraw: printLastDayToWithdraw,
-          instructor_id: value.instructor_id,
-          campus_name: value.campus_name
+          course_section_id: value.course_section_id,
+          person_id: value.person_id,
+          enrollment_date: printEnrollmentDate,
+          completion_flag: value.completion_flag,
+          completion_success_flag: value.completion_success_flag,
+          withdrawal_flag: value.withdrawal_flag,
+          drop_flag: value.drop_flag,
+          enrollment_status_change_date: printEnrollmentStatusChangeDate,
+          course_grade_number: value.course_grade_number,
+          course_grade_letter: value.course_grade_letter
 
         }
       }
@@ -111,7 +121,7 @@ function generateCourse () {
   })
 
   // Pretty JSON format
-  fs.writeFile('mock_files/output/course_sections.json', JSON.stringify(events, null, 4), function (err) {
+  fs.writeFile('mock_files/output/student_enrollments.json', JSON.stringify(events, null, 4), function (err) {
     // fs.writeFile("mock_files/events.json", JSON.stringify(events), function(err) {
     if (err) {
       return console.log(err)
@@ -120,4 +130,4 @@ function generateCourse () {
   })
 }
 
-generateCourse()
+generateEnrollment()
