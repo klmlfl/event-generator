@@ -1,12 +1,12 @@
 'use strict'
 const XLSX = require('xlsx')
-var SSF = require ('ssf')
+var SSF = require('ssf')
 var fs = require('fs')
 var Chance = require('chance')
 var chance = new Chance()
 
-function generateCourse () {
-  var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', {binary: true, cellDates: false, cellStyles: true})
+function generateCourseSection() {
+  var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', { binary: true, cellDates: false, cellStyles: true })
   var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]
   var dataWorksheet = workbook.Sheets[firstWorksheet]
   var headers = {}
@@ -61,12 +61,12 @@ function generateCourse () {
           'instructor_id': data[d].instructor_id || '',
           'campus_name': data[d].campus_name || ''
         }
-        
+
         courseSections.push(courseSection)
-        
-        var printStartDate = courseSection.start_date.m+'/'+courseSection.start_date.d+"/"+courseSection.start_date.y
-        var printEndDate = courseSection.end_date.m+'/'+courseSection.end_date.d+"/"+courseSection.end_date.y
-        var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
+
+        var printStartDate = courseSection.start_date.m + '/' + courseSection.start_date.d + "/" + courseSection.start_date.y
+        var printEndDate = courseSection.end_date.m + '/' + courseSection.end_date.d + "/" + courseSection.end_date.y
+        var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m + '/' + courseSection.last_day_to_withdraw.d + "/" + courseSection.last_day_to_withdraw.y
       }
     }
   }
@@ -120,4 +120,4 @@ function generateCourse () {
   })
 }
 
-generateCourse()
+generateCourseSection()
