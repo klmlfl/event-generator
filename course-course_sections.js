@@ -7,7 +7,7 @@ var Chance = require('chance')
 var chance = new Chance()
 
 function generateCourse () {
-  var workbook = XLSX.readFile('mock_files/test_worksheets_manual.xlsx', {binary: true, cellDates: false, cellStyles: true})
+  var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', {binary: true, cellDates: false, cellStyles: true})
   var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]
   var dataWorksheet = workbook.Sheets[firstWorksheet]
   var headers = {}
@@ -53,13 +53,19 @@ function generateCourse () {
         var courseSection = {
           'course_section_id': courseSectionId,
           'course_section_code': data[d].course_section_code || '',
+          'course_id': data[d].course_id || '',
+          'delivery_method': data[d].delivery_method || '',
           'term_code': data[d].term_code || '',
-          //        'start_date': moment(timeFrom, 'DD-MM-YYYY').add(data[d].start_date, 'days') || '',
-          //        'end_date': moment(timeFrom, 'DD-MM-YYYY').add(data[d].end_date, 'days') || '',
-          'last_day_to_withdraw': data[d].last_day_to_withdraw || ''
+          'start_date': data[d].start_date || '',
+          'end_date': data[d].end_date || '',
+          'last_day_to_withdraw': data[d].last_day_to_withdraw || '',
+          'instructor_id': data[d].instructor_id || '',
+          'campus_name': data[d].campus_name || ''
         }
         
-        var printDate = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
+        var printStartDate = courseSection.start_date.m+'/'+courseSection.start_date.d+"/"+courseSection.start_date.y
+        var printEndDate = courseSection.end_date.m+'/'+courseSection.end_date.d+"/"+courseSection.end_date.y
+        var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
 
         courseSections.push(courseSection)
       }
@@ -90,10 +96,14 @@ function generateCourse () {
         },
         val: {
           course_section_code: value.course_section_code,
+          course_id: value.course_id,
+          delivery_method: value.delivery_method,
           term_code: value.term_code,
-          start_date: value.start_date,
-          end_date: value.end_date,
-          last_day_to_withdraw: printDate
+          start_date: printStartDate,
+          end_date: printEndDate,
+          last_day_to_withdraw: printLastDayToWithdraw,
+          instructor_id: value.instructor_id,
+          campus_name: value.campus_name
 
         }
       }
