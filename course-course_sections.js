@@ -58,6 +58,8 @@ function generateCourse () {
           //        'end_date': moment(timeFrom, 'DD-MM-YYYY').add(data[d].end_date, 'days') || '',
           'last_day_to_withdraw': data[d].last_day_to_withdraw || ''
         }
+        
+        var printDate = courseSection.last_day_to_withdraw.m+'/'+courseSection.last_day_to_withdraw.d+"/"+courseSection.last_day_to_withdraw.y
 
         courseSections.push(courseSection)
       }
@@ -91,7 +93,7 @@ function generateCourse () {
           term_code: value.term_code,
           start_date: value.start_date,
           end_date: value.end_date,
-          last_day_to_withdraw: value.last_day_to_withdraw
+          last_day_to_withdraw: printDate
 
         }
       }
