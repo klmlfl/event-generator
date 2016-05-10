@@ -6,8 +6,8 @@ var chance = new Chance()
 
 function generatePerson () {
   var workbook = XLSX.readFile('mock_files/test_worksheets_manual.xlsx')
-  var firstWorksheet = workbook.SheetNames[0]
-  var dataWorksheet = workbook.Sheets[firstWorksheet]
+  var personWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Person')]
+  var dataWorksheet = workbook.Sheets[personWorksheet]
   var headers = {}
   var data = []
   var personIds = new Set()

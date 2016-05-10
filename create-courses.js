@@ -6,8 +6,8 @@ var chance = new Chance()
 
 function generateCourse () {
   var workbook = XLSX.readFile('mock_files/test_worksheets_manual.xlsx')
-  var firstWorksheet = workbook.SheetNames[1]
-  var dataWorksheet = workbook.Sheets[firstWorksheet]
+  var courseWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course')]
+  var dataWorksheet = workbook.Sheets[courseWorksheet]
   var headers = {}
   var data = []
   var courseIds = new Set()

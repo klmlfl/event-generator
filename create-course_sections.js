@@ -5,10 +5,10 @@ var fs = require('fs')
 var Chance = require('chance')
 var chance = new Chance()
 
-function generateCourseSection() {
+function generateCourseSection () {
   var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', { binary: true, cellDates: false, cellStyles: true })
-  var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]
-  var dataWorksheet = workbook.Sheets[firstWorksheet]
+  var courseSectionWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]
+  var dataWorksheet = workbook.Sheets[courseSectionWorksheet]
   var headers = {}
   var data = []
   var courseIds = new Set()

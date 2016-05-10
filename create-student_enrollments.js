@@ -7,8 +7,8 @@ var chance = new Chance()
 
 function generateEnrollment () {
   var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', {binary: true, cellDates: false, cellStyles: true})
-  var firstWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Student_Enrollment')]
-  var dataWorksheet = workbook.Sheets[firstWorksheet]
+  var studentEnrollmentWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Student_Enrollment')]
+  var dataWorksheet = workbook.Sheets[studentEnrollmentWorksheet]
   var headers = {}
   var data = []
   var enrollmentIds = new Set()
