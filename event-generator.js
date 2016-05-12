@@ -1,9 +1,9 @@
 'use strict'
 const XLSX = require('xlsx')
-var moment = require('moment')
+const moment = require('moment')
 const fs = require('fs')
-var Chance = require('chance'),
-  chance = new Chance()
+const Chance = require('chance')
+const chance = new Chance()
 
 var workbook = XLSX.readFile('mock_files/input/testerys23.xlsx')
 var roa = {}
@@ -15,52 +15,46 @@ function selectActiveWorksheet (sheetName) {
 }
 
 function createPersons () {
-  var sheet = 'Person'
-  var personArr = []
-  var uniquePersons = new Set()
-
-  selectActiveWorksheet(sheet)
+  let personCreationEvents = []
+  let roa = XLSX.utils.sheet_to_row_object_array(
+      workbook.Sheets[workbook.SheetNames[workbook.SheetNames.indexOf('Person')]])
 
   for (let row of roa) {
-
-    if (!uniquePersons.has(row.person_id)) {
-      uniquePersons.add(row.person_id)
-      personArr.push(
-        {
-          'uuid': chance.guid(),
-          'time': moment().format(),
-          'type': 'system.create.person',
-          'source': 'lou',
-          'subj': {
-            'type': 'system',
-            'key': {
-              'system_id': 'lou'
-            }
+    personCreationEvents.push(
+      {
+        'uuid': chance.guid(),
+        'time': moment().format(),
+        'type': 'system.create.person',
+        'source': 'lou',
+        'subj': {
+          'type': 'system',
+          'key': {
+            'system_id': 'lou'
+          }
+        },
+        'action': {
+          'type': 'create',
+          'time': moment().format()
+        },
+        'obj': {
+          'type': 'person',
+          'key': {
+            'person_id': row.person_id || ''
           },
-          'action': {
-            'type': 'create',
-            'time': moment().format()
-          },
-          'obj': {
-            'type': 'person',
-            'key': {
-              'person_id': row.person_id || ''
-            },
-            'val': {
-              'username': row.username || '',
-              'email': row.email || '',
-              'given_name': row.given_name || '',
-              'middle_name': row.middle_name || '',
-              'family_name': row.family_name || ''
-            }
+          'val': {
+            'username': row.username || '',
+            'email': row.email || '',
+            'given_name': row.given_name || '',
+            'middle_name': row.middle_name || '',
+            'family_name': row.family_name || ''
           }
         }
-      )
-    }
+      }
+    )
   }
 
   function writePersons () {
-    fs.writeFile('mock_files/output/person-events.json', JSON.stringify(personArr, null, 4), function (err) {
+    fs.writeFile('mock_files/output/person-events.json', JSON.stringify(personCreationEvents, null, 4), function (err) {
       if (err) {
         return console.log(err)
       }
