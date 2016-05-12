@@ -57,7 +57,6 @@ function generatePerson () {
   persons.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
-      // time: moment().format('MM/DD/YYYY')
       time: new Date().toJSON(),
       type: 'system.create.person',
       source: 'lou',

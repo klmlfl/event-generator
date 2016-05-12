@@ -40,7 +40,7 @@ function generateEnrollment () {
     }
   }
 
-  // console.log(data)
+   //console.log(data)
 
   for (let d in data) {
     // Skip the header row
@@ -65,17 +65,15 @@ function generateEnrollment () {
 
         studentEnrollments.push(studentEnrollment)
 
-        if (studentEnrollment.enrollment_date != null) {
-          var printEnrollmentDate = studentEnrollment.enrollment_date.m + '/' + studentEnrollment.enrollment_date.d + '/' + studentEnrollment.enrollment_date.y
-        }
-        else
-          printEnrollmentDate = ''
-
-        if (studentEnrollment.enrollment_status_change_date.m != null) {
-          var printEnrollmentStatusChangeDate = studentEnrollment.enrollment_status_change_date.m + '/' + studentEnrollment.enrollment_status_change_date.d + '/' + studentEnrollment.enrollment_status_change_date.y
-        }
-        else
-          printEnrollmentStatusChangeDate = ''
+        // if (studentEnrollment.enrollment_date != null) { var printEnrollmentDate = studentEnrollment.enrollment_date.m + '/' + studentEnrollment.enrollment_date.d + '/' + studentEnrollment.enrollment_date.y }
+        // else {
+        //   printEnrollmentDate = ''
+        // }
+        // if (studentEnrollment.enrollment_status_change_date.m != null) {
+        //   var printEnrollmentStatusChangeDate = studentEnrollment.enrollment_status_change_date.m + '/' + studentEnrollment.enrollment_status_change_date.d + '/' + studentEnrollment.enrollment_status_change_date.y
+        // }
+        // else
+        //   printEnrollmentStatusChangeDate = ''
       }
     }
   }
@@ -85,7 +83,7 @@ function generateEnrollment () {
       uuid: chance.guid(),
       // time: moment().format('MM/DD/YYYY')
       time: new Date().toJSON(),
-      type: 'system.create.studentEnrollment',
+      type: 'system.enroll.student',
       source: 'lou',
       subj: {
         type: 'system',
@@ -94,7 +92,7 @@ function generateEnrollment () {
         }
       },
       action: {
-        type: 'create',
+        type: 'enroll',
         time: new Date().toJSON()
       },
       obj: {
@@ -105,12 +103,12 @@ function generateEnrollment () {
         val: {
           course_section_id: value.course_section_id,
           person_id: value.person_id,
-          enrollment_date: printEnrollmentDate,
-          completion_flag: value.completion_flag,
-          completion_success_flag: value.completion_success_flag,
-          withdrawal_flag: value.withdrawal_flag,
-          drop_flag: value.drop_flag,
-          enrollment_status_change_date: printEnrollmentStatusChangeDate,
+          enrollment_date: new Date(studentEnrollment.enrollment_date.y, studentEnrollment.enrollment_date.m, studentEnrollment.enrollment_date.d),
+          completion_flag: !!value.completion_flag,
+          completion_success_flag: !!value.completion_success_flag,
+          withdrawal_flag: !!value.withdrawal_flag,
+          drop_flag: !!value.drop_flag,
+          enrollment_status_change_date: new Date(studentEnrollment.enrollment_status_change_date.y, studentEnrollment.enrollment_status_change_date.m, studentEnrollment.enrollment_status_change_date.d),
           course_grade_number: value.course_grade_number,
           course_grade_letter: value.course_grade_letter
 

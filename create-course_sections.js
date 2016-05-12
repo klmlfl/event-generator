@@ -64,9 +64,10 @@ function generateCourseSection () {
 
         courseSections.push(courseSection)
 
-        var printStartDate = courseSection.start_date.m + '/' + courseSection.start_date.d + "/" + courseSection.start_date.y
-        var printEndDate = courseSection.end_date.m + '/' + courseSection.end_date.d + "/" + courseSection.end_date.y
-        var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m + '/' + courseSection.last_day_to_withdraw.d + "/" + courseSection.last_day_to_withdraw.y
+        //  Non ISO-8601 format dates
+        //  var printStartDate = courseSection.start_date.m + '/' + courseSection.start_date.d + "/" + courseSection.start_date.y
+        //  var printEndDate = courseSection.end_date.m + '/' + courseSection.end_date.d + "/" + courseSection.end_date.y
+        //  var printLastDayToWithdraw = courseSection.last_day_to_withdraw.m + '/' + courseSection.last_day_to_withdraw.d + "/" + courseSection.last_day_to_withdraw.y
       }
     }
   }
@@ -74,7 +75,7 @@ function generateCourseSection () {
   courseSections.forEach(function (value) {
     let event = {
       uuid: chance.guid(),
-      // time: moment().format('MM/DD/YYYY')
+
       time: new Date().toJSON(),
       type: 'system.create.courseSection',
       source: 'lou',
@@ -98,9 +99,9 @@ function generateCourseSection () {
           course_id: value.course_id,
           delivery_method: value.delivery_method,
           term_code: value.term_code,
-          start_date: printStartDate,
-          end_date: printEndDate,
-          last_day_to_withdraw: printLastDayToWithdraw,
+          start_date: new Date(courseSection.start_date.y, courseSection.start_date.m, courseSection.start_date.d).toJSON(),
+          end_date: new Date(courseSection.end_date.y, courseSection.end_date.m, courseSection.end_date.d).toJSON(),
+          last_day_to_withdraw: new Date(courseSection.last_day_to_withdraw.y, courseSection.last_day_to_withdraw.m, courseSection.last_day_to_withdraw.d).toJSON(),
           instructor_id: value.instructor_id,
           campus_name: value.campus_name
 
