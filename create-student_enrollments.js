@@ -6,7 +6,7 @@ var Chance = require('chance')
 var chance = new Chance()
 
 function generateEnrollment () {
-  var workbook = XLSX.readFile('mock_files/DEAN_import_format.xlsx', {binary: true, cellDates: false, cellStyles: true})
+  var workbook = XLSX.readFile('mock_files/testerys23.xlsx', {binary: true, cellDates: false, cellStyles: true})
   var studentEnrollmentWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf('Student_Enrollment')]
   var dataWorksheet = workbook.Sheets[studentEnrollmentWorksheet]
   var headers = {}
@@ -40,7 +40,7 @@ function generateEnrollment () {
     }
   }
 
-   //console.log(data)
+  // console.log(data)
 
   for (let d in data) {
     // Skip the header row
@@ -54,10 +54,10 @@ function generateEnrollment () {
           'course_section_id': data[d].course_section_id || '',
           'person_id': data[d].person_id || '',
           'enrollment_date': data[d].enrollment_date || '',
-          'completion_flag': data[d].completion_flag || '',
-          'completion_success_flag': data[d].completion_success_flag || '',
-          'withdrawal_flag': data[d].withdrawal_flag || '',
-          'drop_flag': data[d].drop_flag || '',
+          'completion_flag': !!data[d].completion_flag || '',
+          'completion_success_flag': !!data[d].completion_success_flag || '',
+          'withdrawal_flag': !!data[d].withdrawal_flag || '',
+          'drop_flag':!! data[d].drop_flag || '',
           'enrollment_status_change_date': data[d].enrollment_status_change_date || '',
           'course_grade_number': data[d].course_grade_number || '',
           'course_grade_letter': data[d].course_grade_letter || ''
@@ -65,10 +65,12 @@ function generateEnrollment () {
 
         studentEnrollments.push(studentEnrollment)
 
-        // if (studentEnrollment.enrollment_date != null) { var printEnrollmentDate = studentEnrollment.enrollment_date.m + '/' + studentEnrollment.enrollment_date.d + '/' + studentEnrollment.enrollment_date.y }
-        // else {
-        //   printEnrollmentDate = ''
+        // if (studentEnrollment.enrollment_date != null) {
+        //   var printEnrollmentDate = studentEnrollment.enrollment_date.m + '/' + studentEnrollment.enrollment_date.d + '/' + studentEnrollment.enrollment_date.y
         // }
+        // else
+        //   printEnrollmentDate = ''
+
         // if (studentEnrollment.enrollment_status_change_date.m != null) {
         //   var printEnrollmentStatusChangeDate = studentEnrollment.enrollment_status_change_date.m + '/' + studentEnrollment.enrollment_status_change_date.d + '/' + studentEnrollment.enrollment_status_change_date.y
         // }
@@ -103,12 +105,12 @@ function generateEnrollment () {
         val: {
           course_section_id: value.course_section_id,
           person_id: value.person_id,
-          enrollment_date: new Date(studentEnrollment.enrollment_date.y, studentEnrollment.enrollment_date.m, studentEnrollment.enrollment_date.d),
-          completion_flag: !!value.completion_flag,
-          completion_success_flag: !!value.completion_success_flag,
-          withdrawal_flag: !!value.withdrawal_flag,
-          drop_flag: !!value.drop_flag,
-          enrollment_status_change_date: new Date(studentEnrollment.enrollment_status_change_date.y, studentEnrollment.enrollment_status_change_date.m, studentEnrollment.enrollment_status_change_date.d),
+          enrollment_date: new Date(studentEnrollment.enrollment_date.y, studentEnrollment.enrollment_date.m, studentEnrollment.enrollment_date.d).toJSON(),
+          completion_flag: value.completion_flag,
+          completion_success_flag: value.completion_success_flag,
+          withdrawal_flag: value.withdrawal_flag,
+          drop_flag: value.drop_flag,
+          enrollment_status_change_date: new Date(studentEnrollment.enrollment_status_change_date.y, studentEnrollment.enrollment_status_change_date.m, studentEnrollment.enrollment_status_change_date.d).toJSON(),
           course_grade_number: value.course_grade_number,
           course_grade_letter: value.course_grade_letter
 
