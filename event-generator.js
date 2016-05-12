@@ -5,14 +5,7 @@ const fs = require('fs')
 const Chance = require('chance')
 const chance = new Chance()
 
-var workbook = XLSX.readFile('mock_files/input/testerys23.xlsx')
-var roa = {}
-
-function selectActiveWorksheet (sheetName) {
-  var activeWorksheet = workbook.SheetNames[workbook.SheetNames.indexOf(sheetName)]
-  var dataWorksheet = workbook.Sheets[activeWorksheet]
-  roa = XLSX.utils.sheet_to_row_object_array(dataWorksheet)
-}
+var workbook = XLSX.readFile('mock_files/input/test_formatted.xlsx')
 
 function createPersons () {
   let personCreationEvents = []
@@ -66,17 +59,12 @@ function createPersons () {
 }
 
 function createCourses () {
-  var sheet = 'Course'
-  var courseArr = []
-  var uniqueCourses = new Set()
-
-  selectActiveWorksheet(sheet)
+    let courseCreationEvents = []
+    let roa = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[workbook.SheetNames[workbook.SheetNames.indexOf('Course')]])
 
   for (let row of roa) {
-
-    if (!uniqueCourses.has(row.course_id)) {
-      uniqueCourses.add(row.course_id)
-      courseArr.push(
+      courseCreationEvents.push(
         {
           'uuid': chance.guid(),
           'time': moment().format(),
@@ -106,10 +94,10 @@ function createCourses () {
         }
       )
     }
-  }
+
 
   function writeCourses () {
-    fs.writeFile('mock_files/output/course-events.json', JSON.stringify(courseArr, null, 4), function (err) {
+    fs.writeFile('mock_files/output/course-events.json', JSON.stringify(courseCreationEvents, null, 4), function (err) {
       if (err) {
         return console.log(err)
       }
@@ -120,18 +108,13 @@ function createCourses () {
   writeCourses()
 }
 
-function createCoursesSections () {
-  var sheet = 'Course_Section'
-  var courseSectionArr = []
-  var uniqueCourseSections = new Set()
-
-  selectActiveWorksheet(sheet)
+function createCourseSections () {
+    let courseSectionCreationEvents = []
+    let roa = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[workbook.SheetNames[workbook.SheetNames.indexOf('Course_Section')]])
 
   for (let row of roa) {
-
-    if (!uniqueCourseSections.has(row.course_section_id)) {
-      uniqueCourseSections.add(row.course__section_id)
-      courseSectionArr.push(
+      courseSectionCreationEvents.push(
         {
           'uuid': chance.guid(),
           'time': moment().format(),
@@ -168,10 +151,9 @@ function createCoursesSections () {
         }
       )
     }
-  }
 
   function writeCourseSections () {
-    fs.writeFile('mock_files/output/course_section-events.json', JSON.stringify(courseSectionArr, null, 4), function (err) {
+    fs.writeFile('mock_files/output/course_section-events.json', JSON.stringify(courseSectionCreationEvents, null, 4), function (err) {
       if (err) {
         return console.log(err)
       }
@@ -183,17 +165,12 @@ function createCoursesSections () {
 }
 
 function createStudentEnrollments () {
-  var sheet = 'Student_Enrollment'
-  var studentEnrollmentArr = []
-  var uniqueStudentEnrollments = new Set()
-
-  selectActiveWorksheet(sheet)
+    let studentEnrollmentEvent = []
+    let roa = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[workbook.SheetNames[workbook.SheetNames.indexOf('Student_Enrollment')]])
 
   for (let row of roa) {
-
-    if (!uniqueStudentEnrollments.has(row.enrollment_id)) {
-      uniqueStudentEnrollments.add(row.enrollment_id)
-      studentEnrollmentArr.push(
+      studentEnrollmentEvent.push(
         {
           'uuid': chance.guid(),
           'time': moment().format(),
@@ -231,21 +208,19 @@ function createStudentEnrollments () {
         }
       )
     }
-  }
-
   function writeStudentEnrollments () {
-    fs.writeFile('mock_files/output/student_enrollment-events.json', JSON.stringify(studentEnrollmentArr, null, 4), function (err) {
+    fs.writeFile('mock_files/output/student_enrollment-events.json', JSON.stringify(studentEnrollmentEvent, null, 4), function (err) {
       if (err) {
         return console.log(err)
       }
       console.log('Student Enrollment events file saved!')
     })
   }
-
   writeStudentEnrollments()
 }
 
+
 createPersons()
 createCourses()
-createCoursesSections()
+createCourseSections()
 createStudentEnrollments()
