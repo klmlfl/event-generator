@@ -3,7 +3,6 @@ node_modules/
 .idea/
 .DS_Store
 ~$test.xlsx
-.editorconfig
 .~*
 *.iml
 /mock_files/output
